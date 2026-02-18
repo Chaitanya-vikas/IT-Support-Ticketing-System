@@ -56,28 +56,27 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # --- DATABASE CONFIGURATION ---
+# --- DATABASE CONFIGURATION ---
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB_NAME', 'support_system'),  # Env var OR Local Name
-        'USER': os.environ.get('DB_USER', 'root'),            # Env var OR Local User
-        'PASSWORD': os.environ.get('DB_PASSWORD', ''),        # Env var OR Local Pass
-        'HOST': os.environ.get('DB_HOST', 'localhost'),       # Env var OR Local Host
-        'PORT': os.environ.get('DB_PORT', '3306'),            # Env var OR Local Port
+        'NAME': os.environ.get('DB_NAME', 'support_system'),
+        'USER': os.environ.get('DB_USER', 'root'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', '3306'),
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
         },
     }
 }
 
-# TiDB requires a secure SSL connection when on the cloud
-if os.environ.get('RENDER'):
-    DATABASES['default']['OPTIONS']['ssl'] = {'mode': 'REQUIRED'}
-
-# This connects to Render.com's database automatically when deployed
-database_url = os.environ.get("DATABASE_URL")
-if database_url:
-    DATABASES["default"] = dj_database_url.parse(database_url)
+# INTELLIGENT SSL FIX:
+# If connecting to TiDB (Cloud), use the Linux system certificates
+if 'tidbcloud' in DATABASES['default']['HOST']:
+    DATABASES['default']['OPTIONS']['ssl'] = {
+        'ca': '/etc/ssl/certs/ca-certificates.crt'
+    }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
