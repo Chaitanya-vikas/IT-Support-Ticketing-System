@@ -93,13 +93,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files (CSS, JavaScript, Images)
-STATIC_URL = 'static/'
-
-# Setup for Deployment (WhiteNoise)
-if not DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -113,3 +106,13 @@ LOGIN_REDIRECT_URL = 'dashboard'
 
 # Email Backend (Console for testing)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# --- STATIC FILES (CSS, JavaScript, Images) ---
+STATIC_URL = 'static/'
+
+# CRITICAL FIX: This must be OUTSIDE the 'if' block so it always runs
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Only turn on the fancy WhiteNoise compression when not in Debug mode
+if not DEBUG:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
