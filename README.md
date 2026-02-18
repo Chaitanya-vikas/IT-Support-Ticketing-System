@@ -19,7 +19,6 @@
 | **Admin Dashboard** | **Login View** |
 |:---:|:---:|
 | ![Dashboard](image.png) | ![Login](login1.jpg) |
-*(Replace these links with actual screenshots of your app)*
 
 ---
 
