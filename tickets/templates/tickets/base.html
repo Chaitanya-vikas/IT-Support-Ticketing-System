@@ -120,18 +120,17 @@
             <a class="navbar-brand" href="{% url 'dashboard' %}">IT Support Desk</a>
             {% if user.is_authenticated %}
                 <span class="navbar-text text-white">
-                    Hello, {{ user.username }} | 
+                                Hello, {{ user.username }} | 
                     <form action="{% url 'logout' %}" method="post" class="d-inline">
-                     {% csrf_token %}
-                     {% if user.is_staff %}
-    <a href="/admin/" class="btn btn-outline-warning btn-sm me-2" target="_blank">
-        <i class="fas fa-user-shield"></i> Admin Panel
-    </a>
-{% endif %}
+                        {% csrf_token %}
+                        {% if user.is_staff %}
+                        <a href="/admin/" class="btn btn-outline-warning btn-sm me-2" target="_blank">
+                            <i class="fas fa-user-shield"></i> Admin Panel
+                        </a>
+                        {% endif %}
 
-
-            <button type="submit" class="btn btn-link text-white fw-bold text-decoration-none p-0 border-0">Logout</button>
-</form>
+                        <button type="submit" class="btn btn-link text-white fw-bold text-decoration-none p-0 border-0">Logout</button>
+                    </form>
                 </span>
             {% endif %}
         </div>
