@@ -16,9 +16,9 @@
 ---
 
 ## 📸 Screenshots
-| **Admin Dashboard** | **Ticket View** |
+| **Admin Dashboard** | **Login View** |
 |:---:|:---:|
-| ![Dashboard](https://via.placeholder.com/600x300?text=Dashboard+Screenshot) | ![Ticket](https://via.placeholder.com/600x300?text=Ticket+Detail+Screenshot) |
+| ![Dashboard](image.png) | ![Login](login1.jpg) |
 *(Replace these links with actual screenshots of your app)*
 
 ---
@@ -58,5 +58,5 @@ Want to run this project on your machine? Follow these steps:
 
 ### 1. Clone the Repository
 ```bash
-git clone [https://github.com/YOUR-USERNAME/support-system.git](https://github.com/YOUR-USERNAME/support-system.git)
+git clone (https://github.com/Chaitanya-vikas/IT-Support-Ticketing-System)
 cd support-system
