@@ -123,6 +123,13 @@
                     Hello, {{ user.username }} | 
                     <form action="{% url 'logout' %}" method="post" class="d-inline">
                      {% csrf_token %}
+                     {% if user.is_staff %}
+    <a href="/admin/" class="btn btn-outline-warning btn-sm me-2" target="_blank">
+        <i class="fas fa-user-shield"></i> Admin Panel
+    </a>
+{% endif %}
+
+<a href="{% url 'logout' %}" class="text-white text-decoration-none fw-bold">Logout</a>
             <button type="submit" class="btn btn-link text-white fw-bold text-decoration-none p-0 border-0">Logout</button>
 </form>
                 </span>
