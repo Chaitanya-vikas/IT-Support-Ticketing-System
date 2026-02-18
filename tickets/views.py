@@ -1,13 +1,32 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
-from .models import Ticket
-from .forms import TicketForm
 from .models import Ticket, Comment
+from .forms import TicketForm
 from django.core.mail import send_mail
+
+# --- Auth Views ---
+
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('dashboard')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'tickets/login.html', {'form': form})
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+# --- App Views ---
 
 @login_required
 def dashboard(request):
-    # Logic: Support sees ALL tickets; Customers see only THEIR tickets
     if request.user.is_support:
         tickets = Ticket.objects.all().order_by('-created_at')
     else:
@@ -22,36 +41,18 @@ def create_ticket(request):
             ticket = form.save(commit=False)
             ticket.customer = request.user
             ticket.save()
-            # Send email (simulation)
-            send_mail(
-                subject=f'New Ticket Created: {ticket.title}',
-                message=f'User {request.user.username} has created a new ticket.\n\nDescription:\n{ticket.description}',
-                from_email='system@example.com',
-                recipient_list=['admin@example.com'],
-                fail_silently=False,
-            )
+            # Email Simulation
+            print(f"Sending email to admin: New ticket '{ticket.title}' from {request.user.username}")
             return redirect('dashboard')
     else:
         form = TicketForm()
-
-    # CRITICAL: This line must be back here, ALIGNED with the 'if' above, not inside 'else'
     return render(request, 'tickets/create_ticket.html', {'form': form})
-
-# Simple logic to close a ticket (for demo)
-@login_required
-def close_ticket(request, pk):
-    ticket = Ticket.objects.get(pk=pk)
-    # Only allow if user is support or owns the ticket
-    if request.user.is_support or ticket.customer == request.user:
-        ticket.status = 'CLOSED'
-        ticket.save()
-    return redirect('dashboard')
 
 @login_required
 def ticket_detail(request, pk):
-    ticket = Ticket.objects.get(pk=pk)
+    ticket = get_object_or_404(Ticket, pk=pk)
     
-    # Security Check: Only allow Owner or Support Agent
+    # Security: Only allow owner or support
     if request.user != ticket.customer and not request.user.is_support:
         return redirect('dashboard')
 
@@ -62,3 +63,11 @@ def ticket_detail(request, pk):
             return redirect('ticket_detail', pk=pk)
 
     return render(request, 'tickets/ticket_detail.html', {'ticket': ticket})
+
+@login_required
+def close_ticket(request, pk):
+    ticket = get_object_or_404(Ticket, pk=pk)
+    if request.user.is_support:
+        ticket.status = 'CLOSED'
+        ticket.save()
+    return redirect('dashboard')
