@@ -20,7 +20,7 @@
 |:---:|:---:|
 | ![Dashboard](image.png) | ![Login](login1.jpg) |
 
----
+----
 
 ## ✨ Key Features
 
@@ -39,7 +39,7 @@
 * **Deployment:** Hosted on **Render** with Gunicorn and WhiteNoise for static file serving.
 * **Security:** Enforced SSL connections for database transactions.
 
----
+----
 
 ## 🛠 Tech Stack
 
@@ -49,7 +49,7 @@
 * **Deployment:** Render, Gunicorn, WhiteNoise
 * **Version Control:** Git, GitHub
 
----
+----
 
 ## ⚙️ Local Installation Guide
 
