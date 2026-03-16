@@ -59,3 +59,35 @@ Want to run this project on your machine? Follow these steps:
 ```bash
 git clone (https://github.com/Chaitanya-vikas/IT-Support-Ticketing-System)
 cd support-system
+
+Step 2: Create Virtual Environment
+```Bash
+python -m venv venv
+# Activate it:
+# Windows:
+venv\Scripts\activate
+# Mac/Linux:
+source venv/bin/activate
+```
+
+Step 3: Install Dependencies
+```Bash
+pip install -r requirements.txt
+```
+
+Step 4: Apply Database Migrations
+```Bash
+python manage.py makemigrations
+python manage.py migrate
+```
+Step 5: Create Admin User
+```Bash
+python manage.py createsuperuser
+```
+#Follow prompts to set username and password
+
+Step 6: Run Server
+```Bash
+python manage.py runserver
+```
+Open browser and go to: http://127.0.0.1:8000
